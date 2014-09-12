@@ -11,5 +11,8 @@
 		<class>org.lightadmin.demo.model.Order</class>
 		<class>org.lightadmin.demo.model.LineItem</class>
 		<class>org.lightadmin.demo.model.DiscountProgram</class>
+		<class>org.lightadmin.demo.model.JobType</class>
+		<class>org.lightadmin.demo.model.Job</class>
+		<class>org.lightadmin.demo.model.JobQueue</class>
 	</persistence-unit>
 </persistence>
