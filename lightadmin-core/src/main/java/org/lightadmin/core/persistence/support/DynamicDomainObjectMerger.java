@@ -17,7 +17,8 @@ package org.lightadmin.core.persistence.support;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import org.lightadmin.core.storage.FileResourceStorage;
+import org.lightadmin.core.config.domain.DomainTypeAdministrationConfiguration;
+import org.lightadmin.core.config.domain.GlobalAdministrationConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.ConversionService;
@@ -37,14 +38,14 @@ public class DynamicDomainObjectMerger extends DomainObjectMerger {
 
     private static final Logger logger = LoggerFactory.getLogger(DynamicDomainObjectMerger.class);
 
-    private final Repositories repositories;
     private final ConversionService conversionService;
+    private final GlobalAdministrationConfiguration configuration;
 
-    public DynamicDomainObjectMerger(Repositories repositories, ConversionService conversionService) {
+    public DynamicDomainObjectMerger(Repositories repositories, ConversionService conversionService, GlobalAdministrationConfiguration configuration) {
         super(repositories, conversionService);
 
-        this.repositories = repositories;
         this.conversionService = conversionService;
+        this.configuration = configuration;
     }
 
     /**
@@ -62,7 +63,9 @@ public class DynamicDomainObjectMerger extends DomainObjectMerger {
 
         final BeanWrapper<Object> fromWrapper = BeanWrapper.create(from, conversionService);
         final BeanWrapper<Object> targetWrapper = BeanWrapper.create(target, conversionService);
-        final PersistentEntity<?, ?> entity = repositories.getPersistentEntity(target.getClass());
+
+        final DomainTypeAdministrationConfiguration domainTypeAdministrationConfiguration = configuration.forManagedDomainType(target.getClass());
+        final PersistentEntity<?, ?> entity = domainTypeAdministrationConfiguration.getPersistentEntity();
 
         entity.doWithProperties(new SimplePropertyHandler() {
             @Override
@@ -151,7 +154,7 @@ public class DynamicDomainObjectMerger extends DomainObjectMerger {
     }
 
     private boolean mathesAny(Collection<Object> collection, final Object item) {
-        final PersistentEntity<?, ?> persistentEntity = repositories.getPersistentEntity(item.getClass());
+        final PersistentEntity<?, ?> persistentEntity = configuration.forManagedDomainType(item.getClass()).getPersistentEntity();
         final PersistentProperty<?> idProperty = persistentEntity.getIdProperty();
 
         return Iterables.any(collection, new Predicate<Object>() {

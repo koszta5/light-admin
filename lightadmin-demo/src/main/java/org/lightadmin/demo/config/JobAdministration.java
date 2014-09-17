@@ -16,6 +16,8 @@
 package org.lightadmin.demo.config;
 
 import org.lightadmin.api.config.AdministrationConfiguration;
+import org.lightadmin.api.config.builder.PersistentFieldSetConfigurationUnitBuilder;
+import org.lightadmin.api.config.unit.FieldSetConfigurationUnit;
 import org.lightadmin.demo.model.Job;
 
 /**
@@ -23,5 +25,16 @@ import org.lightadmin.demo.model.Job;
  *
  * @author Maxim Kharchenko (kharchenko.max@gmail.com)
  */
+@SuppressWarnings("unused")
 public class JobAdministration extends AdministrationConfiguration<Job> {
+
+    @Override
+    public FieldSetConfigurationUnit formView(PersistentFieldSetConfigurationUnitBuilder fragmentBuilder) {
+        return fragmentBuilder
+                .field("name").caption("Name")
+                .field("jobType").caption("Type")
+                .field("scheduledTime").caption("Scheduled Time")
+//                .field("jobQueues").caption("Job Queues")
+                .build();
+    }
 }

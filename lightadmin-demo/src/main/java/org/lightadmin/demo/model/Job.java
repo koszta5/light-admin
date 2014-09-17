@@ -21,7 +21,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static javax.persistence.TemporalType.DATE;
 
 /**
@@ -45,6 +47,9 @@ public class Job extends JobDomainEntity {
     @DateTimeFormat(pattern = "MM-dd-yyyy")
     private Date scheduledTime;
 
+    @OneToMany(mappedBy = "job", cascade=CascadeType.ALL)
+    private List<JobQueue> jobQueues;
+
     public String getName() {
         return name;
     }
@@ -55,5 +60,9 @@ public class Job extends JobDomainEntity {
 
     public Date getScheduledTime() {
         return scheduledTime;
+    }
+
+    public List<JobQueue> getJobQueues() {
+        return jobQueues;
     }
 }
