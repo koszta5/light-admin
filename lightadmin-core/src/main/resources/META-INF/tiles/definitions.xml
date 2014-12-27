@@ -25,6 +25,10 @@
     <definition name="access-denied" extends="external-layout">
         <put-attribute name="main-section" value="/views/pages/access-denied.jsp"/>
     </definition>
+    
+    <definition name="embed-layout" template="/views/layout/embed-layout.jsp" preparer="screenViewPreparer">
+      <put-attribute name="common-scripts-include" value="/views/includes/common-scripts-include.jsp"/>
+    </definition>
 
     <definition name="internal-layout" template="/views/layout/internal-layout.jsp" preparer="screenViewPreparer">
         <put-attribute name="common-scripts-include" value="/views/includes/common-scripts-include.jsp"/>
@@ -41,6 +45,10 @@
     <definition name="domain-internal-layout" extends="internal-layout">
         <put-attribute name="domain-scripts-include" value="/views/includes/domain-scripts-include.jsp"/>
     </definition>
+    
+    <definition name="domain-embed-layout" extends="embed-layout">
+    	<put-attribute name="domain-scripts-include" value="/views/includes/domain-scripts-include.jsp"/>
+    </definition>
 
     <definition name="dashboard-view" extends="internal-layout">
         <put-attribute name="main-section">
@@ -51,6 +59,12 @@
     <definition name="list-view" extends="domain-internal-layout">
         <put-attribute name="main-section">
             <definition template="/views/pages/list.jsp" preparer="listViewPreparer"/>
+        </put-attribute>
+    </definition>
+    
+    <definition name="list-view-embed" extends="domain-embed-layout">
+        <put-attribute name="main-section">
+            <definition template="/views/pages/list-embed.jsp" preparer="listViewPreparer"/>
         </put-attribute>
     </definition>
 

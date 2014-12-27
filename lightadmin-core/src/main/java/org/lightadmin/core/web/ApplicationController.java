@@ -97,6 +97,13 @@ public class ApplicationController {
 
         return "list-view";
     }
+    
+    @RequestMapping(value = "/domain/embed/{domainType}", method = RequestMethod.GET)
+    public String listEmbed(@PathVariable String domainType, Model model) {
+        addDomainTypeConfigurationToModel(domainType, model);
+
+        return "list-view-embed";
+    }
 
     @RequestMapping(value = "/domain/{domainTypeName}/{entityId}", method = RequestMethod.GET)
     public String show(@PathVariable String domainTypeName, @PathVariable String entityId, Model model) {
